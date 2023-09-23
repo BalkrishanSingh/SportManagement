@@ -1,24 +1,17 @@
+import React from 'react';
+import {Index} from "./components/index";
+import {EquipmentTable} from "./components/EquipmentTable";
+import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 
-import  CarouselTransition from "./components/carousel"
-import Home from "./components/acpage"
-import Nav from "./components/nav";
-import SimpleCard from "./components/ProfileCard";
-import AchievementCard from "./components/achivement";
-import EquipmentTable from "./components/Eqip";
-import ReactDOM from "react-dom/client";
 
 function App(){
-  
   return(
-    
-          <>
-          <Nav/> 
-           <CarouselTransition/> 
-           <SimpleCard/>
-          {/*<AchievementCard/>*/}
-        {/* <EquipmentTable/> */}
-           </>   
-  )  
-        }
-
+          <Router>
+          <Routes>
+          <Route exact path="/" element = {<Index/>}/>
+          <Route path="/equipment" element = {<EquipmentTable/>}/>
+          </Routes>
+          </Router>
+          )
+}
 export default App;

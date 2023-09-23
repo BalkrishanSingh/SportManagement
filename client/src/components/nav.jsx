@@ -1,19 +1,20 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import "../css/main.css"
 
 const navigation = [
-  { name: 'Home', href: '#', current: true },
+  { name: 'Home', href: '/', current: true },
   { name: 'Sports Circular', href: '#', current: false },
-  { name: 'Equipment', href: '#', current: false },
+  { name: 'Equipment', href: '/equipment', current: false },
   { name: 'Achivements', href: '#', current: false },
-]
+];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+const classNames = (...classes) => {
+  return classes.filter(Boolean).join(' ');
 }
 
-export default function Nav() {
+export const Nav = () => {
   return (
     <Disclosure as="nav" className="bg-green-600">
       {({ open }) => (
