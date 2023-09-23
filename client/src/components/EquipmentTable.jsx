@@ -1,4 +1,5 @@
 import { Card, Typography } from "@material-tailwind/react";
+import "../css/main.css"
  
 const TABLE_HEAD = ["Name", "Job", "Employed", ""];
  
@@ -30,7 +31,7 @@ const TABLE_ROWS = [
   },
 ];
  
-export function TableWithStripedRows() {
+export function EquipmentTable() {
   return (
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">

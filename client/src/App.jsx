@@ -1,13 +1,11 @@
-import { useState } from 'react'
-import './App.css'
-import TableWithStripedRows from './components/EquipmentTable'
+import { EquipmentTable } from './components/EquipmentTable'
 
 function App() {
 
   return (
     <div>
-      <TableWithStripedRows> 
-      </TableWithStripedRows>
+      <EquipmentTable> 
+      </EquipmentTable>
     </div>
   )
 }
