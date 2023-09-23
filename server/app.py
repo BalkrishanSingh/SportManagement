@@ -26,7 +26,7 @@ class Calender(db.Model):
     sno = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(128),nullable = False)
     venue = db.Column(db.String(256))
-    time = db.Column(db.Datetime)
+    time = db.Column(db.DateTime)
 
 class CalenderSchema(ma.Schema):
     class Meta:
