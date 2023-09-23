@@ -20,29 +20,38 @@ class EquipmentSchema(ma.Schema):
 equipment_schema = EquipmentSchema()
 equipments_schema =  EquipmentSchema(many=True)
 
-# class Athletes(db.Model):
-#     pass
-
-# class AthleteSchema(ma.Schema):
-#     class Meta:
-#         fields  = ()
-        
-# athlete_schema = AthleteSchema()
-# athletes_schema =  AthleteSchema(many=True)
-
-@app.route("/equipment",methods=["GET","PUT","DELETE","POST"])
+@app.route("/equipment",methods=["GET","POST"])
 def equipment_api():
     if request.method == "GET":
         equipments = Equipments.query.all()
-        data = equipments_schema(equipments)
+        data = equipments_schema.dump(equipments)
         return jsonify(data)
     elif request.method == "POST":
         equipment = Equipments(request.json["name"],request.json["amount"])
         db.session.add(equipment)
+        db.session.commit()
+        return equipment_schema.jsonify(equipment)
+    
+@app.route("/equipment/<id>",methods=["GET","PUT","DELETE"])
+def equipment_api(id):
+    if request.method == "GET":
+        equipment = Equipments.query.get(id)
+        return equipment_schema.jsonify(equipment)
+    
     elif request.method == "PUT":
-        pass
+        equipment = Equipments.query.get(id)
+        equipment.name = request.json["name"]
+        equipment.amount = request.json["amount"]
+        db.session.add(equipment)
+        db.session.commit()
+        return equipment_schema.jsonify(equipment)
+    
     elif request.method == "DELETE":
-        pass
+        equipment = Equipments.query.get(id)
+        db.session.delete(equipment)
+        db.session.commit()
+        return equipment_schema.jsonify(equipment)
+    
 
 if __name__ == "__main__":
     app.run(debug=True,port=8000)
