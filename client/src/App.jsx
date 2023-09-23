@@ -1,24 +1,24 @@
-import { EquipmentTable } from './components/EquipmentTable'
-import { useState,useEffect } from "react";
 
-function App() {
-  const [EquipmentData,SetEquipmentData] = useState([{}])  
-  useEffect(() => {
-    fetch("/equipment",
-    {'method' : "GET",
-    headers: {
-      "Content-Type": 'Application/json'
-    }}).then(resp => resp.json())
-    .then(resp => {SetEquipmentData(resp)})
-    .catch(err => console.log("Error"))
-  }, [])
+import  CarouselTransition from "./components/carousel"
+import Home from "./components/acpage"
+import Nav from "./components/nav";
+import SimpleCard from "./components/ProfileCard";
+import AchievementCard from "./components/achivement";
+import EquipmentTable from "./components/Eqip";
+import ReactDOM from "react-dom/client";
+
+function App(){
   
-  return (
-    <div>
-      <EquipmentTable EquipmentData = {EquipmentData}> 
-      </EquipmentTable>
-    </div>
-  )
-}
+  return(
+    
+          <>
+          <Nav/> 
+           <CarouselTransition/> 
+           <SimpleCard/>
+          {/*<AchievementCard/>*/}
+        {/* <EquipmentTable/> */}
+           </>   
+  )  
+        }
 
-export default App
+export default App;
