@@ -1,8 +1,6 @@
-
-
 export default class APIService{
     static updateEquipment(id,data){
-        return fetch(`http://127.0.0.1:5000/equipment/${id}/`,{
+        return fetch(`/equipment/${id}/`,{
             'method': 'PUT',
             headers:{
                 'Content-Type': 'applications/json'
@@ -12,7 +10,7 @@ export default class APIService{
         .then(resp => resp.json())
     }
     static deleteEquipment(id){
-        return fetch(`http://127.0.0.1:5000/equipment/${id}/`,{
+        return fetch(`/equipment/${id}/`,{
             'method': 'DELETE',
             headers:{
                 'Content-Type': 'applications/json'
