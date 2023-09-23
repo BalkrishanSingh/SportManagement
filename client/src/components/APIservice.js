@@ -20,4 +20,4 @@ export default class APIService{
         })
         .then(resp => resp.json())
     }
-}
+}q    
