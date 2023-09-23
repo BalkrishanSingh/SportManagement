@@ -18,4 +18,23 @@ export default class APIService{
         })
         .then(resp => resp.json())
     }
-}q    
+    static updateCalender(id,data){
+        return fetch(`/calender/${id}/`,{
+            'method': 'PUT',
+            headers:{
+                'Content-Type': 'applications/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(resp => resp.json())
+    }
+    static deleteCalender(id){
+        return fetch(`/calender/${id}/`,{
+            'method': 'DELETE',
+            headers:{
+                'Content-Type': 'applications/json'
+            },
+        })
+        .then(resp => resp.json())
+    }
+}  
