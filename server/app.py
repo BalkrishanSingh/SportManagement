@@ -26,7 +26,7 @@ class Calender(db.Model):
     sno = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(128),nullable = False)
     venue = db.Column(db.String(256))
-    time = db.Column(db.DateTime)
+    date = db.Column(db.Date)
 
 class CalenderSchema(ma.Schema):
     class Meta:
@@ -55,7 +55,7 @@ def athlete_api():
         data = athletes_schema.dump(Athletes)
         return jsonify(data)
     elif request.method == "POST":
-        athlete = Athletes(request.json["name"],request.json["amount"])
+        athlete = Athletes(request.json["name"],request.json["sport"],request.json['achievements'])
         db.session.add(athlete)
         db.session.commit()
         return athlete_schema.jsonify(athlete)
@@ -69,7 +69,8 @@ def athlete_specific_api(id):
     elif request.method == "PUT":
         athlete = Athletes.query.get(id)
         athlete.name = request.json["name"]
-        athlete.amount = request.json["amount"]
+        athlete.sport = request.json["sport"]
+        athlete.achievements = request.json["achievements"]
         db.session.add(athlete)
         db.session.commit()
         return athlete_schema.jsonify(athlete)
@@ -88,7 +89,7 @@ def calender_api():
         data = calenders_schema.dump(calenders)
         return jsonify(data)
     elif request.method == "POST":
-        calender = Calender(request.json["name"],request.json["amount"])
+        calender = Calender(request.json["name"],request.json["venue"],request.json['date'])
         db.session.add(calender)
         db.session.commit()
         return calender_schema.jsonify(calender)
@@ -102,7 +103,8 @@ def calender_specific_api(id):
     elif request.method == "PUT":
         calender = Calender.query.get(id)
         calender.name = request.json["name"]
-        calender.amount = request.json["amount"]
+        calender.venue = request.json["venue"]
+        calender.date = request.json["date"]
         db.session.add(calender)
         db.session.commit()
         return calender_schema.jsonify(calender)
