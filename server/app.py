@@ -1,6 +1,7 @@
 from flask import Flask,jsonify,request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from datetime import date
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -13,10 +14,13 @@ ma = Marshmallow(app)
 class Equipments(db.Model):
     sno = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(128),nullable = False)
+    sport = db.Column(db.String(128))
     amount = db.Column(db.Integer)
     
-    def __init__(self,name,amount):
+    
+    def __init__(self,name,sport,amount):
         self.name = name
+        self.sport = sport
         self.amount = amount
 
 class Athletes(db.Model):
@@ -33,16 +37,16 @@ class Calender(db.Model):
     sno = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(128),nullable = False)
     venue = db.Column(db.String(256))
-    date = db.Column(db.Date)
+    event_date = db.Column(db.Date)
     
-    def __init__(self,name,venue,date):
+    def __init__(self,name,venue,event_date):
         self.name = name
         self.venue = venue
-        self.date = date
+        self.event_date = event_date
 
 class EquipmentSchema(ma.Schema):
     class Meta:
-        fields  = ('sno','name','amount')
+        fields  = ('sno','name',"sport",'amount')
 class AthleteSchema(ma.Schema):
     class Meta:
         fields  = ('sno','name','sport',"achievements")
@@ -59,7 +63,7 @@ athletes_schema =  AthleteSchema(many=True)
 calender_schema = CalenderSchema()
 calenders_schema =  CalenderSchema(many=True)
 
-@app.route("/athlete",methods=["GET","POST"])
+@app.route("/athlete/",methods=["GET","POST"])
 def athlete_api():
     if request.method == "POST":
         athletes = Athletes.query.all()
@@ -93,17 +97,18 @@ def athlete_specific_api(id):
         return athlete_schema.jsonify(athlete)
 
 
-@app.route("/calender",methods=["GET","POST"])
+@app.route("/calender/",methods=["GET","POST"])
 def calender_api():
     if request.method == "POST":
-        calender = Calender(request.json["name"],request.json["venue"],request.json['date'])
+        y,m,d = (int(x) for x in (request.json['date']).split("-"))
+        calender = Calender(request.json["name"],request.json["venue"],date(y,m,d))
         db.session.add(calender)
         db.session.commit()
         return calender_schema.jsonify(calender)
     elif request.method == "GET":
         calenders = Calender.query.all()
         data = calenders_schema.dump(calenders)
-        return calender_schema.jsonify(data)
+        return jsonify(data)
     
 @app.route("/calender/<id>",methods=["GET","PUT","DELETE"])
 def calender_specific_api(id):
@@ -127,11 +132,11 @@ def calender_specific_api(id):
         calender = Calender.query.get(id)
         return calender_schema.jsonify(calender)
 
-@app.route("/equipment",methods=["GET","POST"])
+@app.route("/equipment/",methods=["GET","POST"])
 def equipment_api():
    
     if request.method == "POST":
-        equipment = Equipments(request.json["name"],request.json["amount"])
+        equipment = Equipments(request.json["name"],request.json["sport"],request.json["amount"])
         db.session.add(equipment)
         db.session.commit()
         return equipment_schema.jsonify(equipment)
@@ -146,6 +151,7 @@ def equipment_specific_api(id):
     if request.method == "PUT":
         equipment = Equipments.query.get(id)
         equipment.name = request.json["name"]
+        equipment.sport = request.json["sport"]
         equipment.amount = request.json["amount"]
         db.session.add(equipment)
         db.session.commit()
