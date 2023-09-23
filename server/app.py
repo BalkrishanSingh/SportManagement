@@ -35,17 +35,63 @@ class CalenderSchema(ma.Schema):
 calender_schema = EquipmentSchema()
 calenders_schema =  EquipmentSchema(many=True)
 
+class Athletes(db.Model):
+    sno = db.Column(db.Integer,primary_key = True)
+    name = db.Column(db.String(128),nullable = False)
+    sport = db.Column(db.String(128))
+    achievements = db.Column(db.VARCHAR)
+
+class AthleteSchema(ma.Schema):
+    class Meta:
+        fields  = ('sno','name','sport',"achievements")
+        
+athlete_schema = AthleteSchema()
+athletes_schema =  AthleteSchema(many=True)
+
+@app.route("/athlete",methods=["GET","POST"])
+def athlete_api():
+    if request.method == "GET":
+        Athletes = Athletes.query.all()
+        data = athletes_schema.dump(Athletes)
+        return jsonify(data)
+    elif request.method == "POST":
+        athlete = Athletes(request.json["name"],request.json["amount"])
+        db.session.add(athlete)
+        db.session.commit()
+        return athlete_schema.jsonify(athlete)
+    
+@app.route("/athlete/<id>",methods=["GET","PUT","DELETE"])
+def athlete_specific_api(id):
+    if request.method == "GET":
+        athlete = Athletes.query.get(id)
+        return athlete_schema.jsonify(athlete)
+    
+    elif request.method == "PUT":
+        athlete = Athletes.query.get(id)
+        athlete.name = request.json["name"]
+        athlete.amount = request.json["amount"]
+        db.session.add(athlete)
+        db.session.commit()
+        return athlete_schema.jsonify(athlete)
+    
+    elif request.method == "DELETE":
+        athlete = Athletes.query.get(id)
+        db.session.delete(athlete)
+        db.session.commit()
+        return athlete_schema.jsonify(athlete)
+
+
 @app.route("/calender",methods=["GET","POST"])
 def calender_api():
     if request.method == "GET":
         calenders = Calender.query.all()
-        data = equipments_schema.dump(calenders)
+        data = calenders_schema.dump(calenders)
         return jsonify(data)
     elif request.method == "POST":
         calender = Calender(request.json["name"],request.json["amount"])
         db.session.add(calender)
         db.session.commit()
-        return equipment_schema.jsonify(calender)
+        return calender_schema.jsonify(calender)
     
 @app.route("/calender/<id>",methods=["GET","PUT","DELETE"])
 def calender_specific_api(id):

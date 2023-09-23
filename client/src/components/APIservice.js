@@ -37,4 +37,24 @@ export default class APIService{
         })
         .then(resp => resp.json())
     }
+    static updateAthlete(id,data){
+        return fetch(`/athlete/${id}/`,{
+            'method': 'PUT',
+            headers:{
+                'Content-Type': 'applications/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(resp => resp.json())
+    }
+    static deleteAthlete(id){
+        return fetch(`/athlete/${id}/`,{
+            'method': 'DELETE',
+            headers:{
+                'Content-Type': 'applications/json'
+            },
+        })
+        .then(resp => resp.json())
+    }
+
 }  
