@@ -1,15 +1,12 @@
+import { Card, CardBody, Typography, Alert } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
 import { Nav } from "./Nav";
-import { Card, Typography, Alert, CardBody } from "@material-tailwind/react";
-import { useState, useEffect } from "react";
+const TableHead = ["Serial No", "Name", "Sport", "Achievement"];
 
-import "../css/main.css";
-
-const TableHead = ["Serial No", "Name", "Amount", ""];
-
-export const EquipmentTable = () => {
-  const [EquipmentData, SetEquipmentData] = useState([]);
+export const AthleteTable = () => {
+  const [AthleteData, SetAtheleteData] = useState([]);
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/equipment/", {
+    fetch("http://127.0.0.1:5000/athlete/", {
       method: "GET",
       headers: {
         "Content-Type": "Application/json",
@@ -17,18 +14,16 @@ export const EquipmentTable = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        SetEquipmentData(resp);
+        SetAtheleteData(resp);
       })
       .catch((err) => console.log(err));
   }, []);
-
-  console.log(EquipmentData);
   return (
     <>
       <Nav></Nav>
       <Card className="bg-cream h-full w-full overflow-scroll">
         <CardBody>
-          {EquipmentData.length !== 0 ? (
+          {AthleteData.length !== 0 ? (
             <table className="w-full min-w-max table-auto text-left">
               <thead>
                 <tr>
@@ -49,7 +44,7 @@ export const EquipmentTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {EquipmentData.map(({ sno, name, sport, amount }) => (
+                {AthleteData.map(({ sno, name, sport, achievement }) => (
                   <tr key={sno} className="even:bg-blue-gray-50/50">
                     <td className="border px-4 py-2">
                       <Typography
@@ -75,7 +70,7 @@ export const EquipmentTable = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {amount}
+                        {sport}
                       </Typography>
                     </td>
                     <td className="border px-4 py-2">
@@ -84,7 +79,7 @@ export const EquipmentTable = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {sport}
+                        {achievement}
                       </Typography>
                     </td>
                   </tr>
@@ -93,7 +88,7 @@ export const EquipmentTable = () => {
             </table>
           ) : (
             <Alert variant="ghost">
-              <span>No Equipment Information !</span>
+              <span>No Athelete Information !</span>
             </Alert>
           )}
         </CardBody>

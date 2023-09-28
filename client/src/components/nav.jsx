@@ -5,9 +5,9 @@ import "../css/main.css";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Sports Circular", href: "#", current: false },
+  { name: "Events", href: "#", current: false },
+  { name: "Athletes", href: "Athletes", current: false },
   { name: "Equipment", href: "/equipment", current: false },
-  { name: "Achivements", href: "#", current: false },
 ];
 
 const classNames = (...classes) => {
