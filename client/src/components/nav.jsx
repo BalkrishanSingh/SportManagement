@@ -5,8 +5,8 @@ import "../css/main.css";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Events", href: "#", current: false },
-  { name: "Athletes", href: "Athletes", current: false },
+  { name: "Events", href: "events", current: false },
+  { name: "Athletes", href: "/athletes", current: false },
   { name: "Equipment", href: "/equipment", current: false },
 ];
 

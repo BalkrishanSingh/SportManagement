@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 
 import "../css/main.css";
 
-const TableHead = ["Serial No", "Name", "Sport", "Amount"];
+const TableHead = ["Serial No", "Tournament Name", "Date", "Venue"];
 
-export const EquipmentTable = () => {
-  const [EquipmentData, SetEquipmentData] = useState([]);
+export const EventTable = () => {
+  const [EventData, SetEventData] = useState([]);
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/equipment/", {
+    fetch("http://127.0.0.1:5000/calender/", {
       method: "GET",
       headers: {
         "Content-Type": "Application/json",
@@ -17,18 +17,18 @@ export const EquipmentTable = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        SetEquipmentData(resp);
+        SetEventData(resp);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(EquipmentData);
+  console.log(EventData);
   return (
     <>
       <Nav></Nav>
       <Card className="bg-cream h-full w-full overflow-scroll">
         <CardBody>
-          {EquipmentData.length !== 0 ? (
+          {EventData.length !== 0 ? (
             <table className="w-full min-w-max table-auto text-left">
               <thead>
                 <tr>
@@ -49,7 +49,7 @@ export const EquipmentTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {EquipmentData.map(({ sno, name, sport, amount }) => (
+                {EventData.map(({ sno, name, date, venue }) => (
                   <tr key={sno} className="even:bg-blue-gray-50/50">
                     <td className="border px-4 py-2">
                       <Typography
@@ -75,7 +75,7 @@ export const EquipmentTable = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {sport}
+                        {date}
                       </Typography>
                     </td>
                     <td className="border px-4 py-2">
@@ -84,7 +84,7 @@ export const EquipmentTable = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {amount}
+                        {venue}
                       </Typography>
                     </td>
                   </tr>
@@ -93,7 +93,7 @@ export const EquipmentTable = () => {
             </table>
           ) : (
             <Alert variant="ghost">
-              <span>No Equipment Information !</span>
+              <span>No Event Information !</span>
             </Alert>
           )}
         </CardBody>

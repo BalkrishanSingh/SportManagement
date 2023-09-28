@@ -39,12 +39,12 @@ class Calender(db.Model):
     sno = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(128),nullable = False)
     venue = db.Column(db.String(256))
-    event_date = db.Column(db.Date)
+    date = db.Column(db.Date)
     
-    def __init__(self,name,venue,event_date):
+    def __init__(self,name,venue,date):
         self.name = name
         self.venue = venue
-        self.event_date = event_date
+        self.date = date
 
 class EquipmentSchema(ma.Schema):
     class Meta:
@@ -54,7 +54,7 @@ class AthleteSchema(ma.Schema):
         fields  = ('sno','name','sport',"achievements")
 class CalenderSchema(ma.Schema):
     class Meta:
-        fields  = ('sno','name','venue',"time")
+        fields  = ('sno','name','venue','date')
         
 equipment_schema = EquipmentSchema()
 equipments_schema =  EquipmentSchema(many=True)
